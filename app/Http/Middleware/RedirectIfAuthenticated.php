@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Middleware;
+namespace StreetWorks\Http\Middleware;
 
 use Closure;
 use Illuminate\Support\Facades\Auth;
