@@ -2,13 +2,14 @@
 
 namespace StreetWorks\Models;
 
+use Laravel\Passport\HasApiTokens;
 use StreetWorks\Library\Traits\UUIDs;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    use Notifiable, UUIDs;
+    use Notifiable, UUIDs, HasApiTokens;
 
     /**
      * Set incrementing to false, because we're using UUIDs.

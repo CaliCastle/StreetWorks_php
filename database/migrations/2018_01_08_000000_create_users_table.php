@@ -21,8 +21,8 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->smallInteger('status')->default(1);
-            $table->boolean('is_business');
-            $table->unsignedBigInteger('notoriety');
+            $table->boolean('is_business')->default(false);
+            $table->unsignedBigInteger('notoriety')->default(0);
             $table->string('facebook_id')->nullable();
             $table->rememberToken();
             $table->timestamps();

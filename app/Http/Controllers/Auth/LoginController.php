@@ -2,6 +2,7 @@
 
 namespace StreetWorks\Http\Controllers\Auth;
 
+use Illuminate\Http\Request;
 use StreetWorks\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
@@ -35,5 +36,26 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    /**
+     * The username field credential for authentication.
+     *
+     * @return string
+     */
+    public function username()
+    {
+        return 'username';
+    }
+
+    /**
+     * @param Request $request
+     * @param         $user
+     *
+     * @return array
+     */
+    protected function authenticated(Request $request, $user)
+    {
+        return $this->successResponse();
     }
 }

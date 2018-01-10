@@ -2,6 +2,7 @@
 
 namespace StreetWorks\Http\Controllers\Auth;
 
+use Illuminate\Http\Request;
 use StreetWorks\Models\User;
 use StreetWorks\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
@@ -42,30 +43,45 @@ class RegisterController extends Controller
     /**
      * Get a validator for an incoming registration request.
      *
-     * @param  array  $data
+     * @param  array $data
+     *
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
+            'first_name' => 'required|string|max:255',
+            'last_name'  => 'required|string|max:255',
+            'username'   => 'required|string|max:255',
+            'email'      => 'required|string|email|max:255|unique:users',
+            'password'   => 'required|string|min:6',
         ]);
     }
 
     /**
      * Create a new user instance after a valid registration.
      *
-     * @param  array  $data
+     * @param  array $data
+     *
      * @return \StreetWorks\Models\User
      */
     protected function create(array $data)
     {
         return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
+            'first_name' => $data['first_name'],
+            'last_name'  => $data['last_name'],
+            'username'   => $data['username'],
+            'email'      => $data['email'],
+            'password'   => bcrypt($data['password'])
         ]);
+    }
+
+    /**
+     * @param Request $request
+     * @param         $user
+     */
+    protected function registered(Request $request, $user)
+    {
+        return $this->successResponse();
     }
 }

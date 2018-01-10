@@ -1,6 +1,6 @@
 <?php
 
-namespace StreetWorks;
+namespace StreetWorks\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
