@@ -13,13 +13,15 @@
 
 // API version 1
 Route::prefix('v1')->group(function () {
-    // Authentication needed routes
+    // Authenticated routes
     Route::namespace('Api')->middleware('auth:api')->group(function () {
         // Gets current user info
         Route::get('me', 'ProfileController@index')->name('profile');
-        // Adds a car
+        // Cars routes
         Route::prefix('cars')->group(function () {
 //            Route::get('{car_id}', '');
+
+            // Adds a car
             Route::post('/', 'CarsController@create')->name('car');
         });
         // Profile routes
@@ -33,6 +35,20 @@ Route::prefix('v1')->group(function () {
             // Change user's password
             Route::post('password', 'ProfileController@changePassword')->name('password');
         });
+
+        // Posts routes
+        Route::prefix('posts')->group(function () {
+            // Create a post
+            Route::post('/', 'PostsController@create')->name('posts');
+
+            // Get a post
+            Route::get('{post}', 'PostsController@show')->name('post');
+            // Like a post
+            Route::patch('{post}', 'PostsController@likeOrUnlike');
+        });
+
+        // Upload a photo
+        Route::post('photo', 'UsersController@uploadPhoto')->name('upload-photo');
     });
 
     // Auth action routes

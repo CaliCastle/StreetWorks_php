@@ -4,12 +4,12 @@ namespace StreetWorks\Http\Controllers\Api;
 
 use Storage;
 use Illuminate\Http\Request;
-use StreetWorks\Http\Requests\PasswordRequest;
 use StreetWorks\Models\Avatar;
 use Illuminate\Http\UploadedFile;
 use StreetWorks\Http\Controllers\Controller;
 use StreetWorks\Http\Requests\AvatarRequest;
 use StreetWorks\Http\Requests\ProfileRequest;
+use StreetWorks\Http\Requests\PasswordRequest;
 
 class ProfileController extends Controller
 {

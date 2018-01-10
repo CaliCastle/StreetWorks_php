@@ -57,6 +57,26 @@ class User extends Authenticatable
     }
 
     /**
+     * User's posts.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
+
+    /**
+     * User's liked posts.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function likedPosts()
+    {
+        return $this->belongsToMany(Post::class, 'posts_likes');
+    }
+
+    /**
      * Update attributes automatically.
      *
      * @param array $attributes
@@ -82,5 +102,15 @@ class User extends Authenticatable
     {
         $this->password = bcrypt($password);
         $this->save();
+    }
+
+    /**
+     * Toggle like on a post.
+     *
+     * @param Post $post
+     */
+    public function likeOrUnlike(Post $post)
+    {
+        $this->likedPosts()->toggle([$post->id]);
     }
 }

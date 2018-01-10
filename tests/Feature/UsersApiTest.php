@@ -3,23 +3,14 @@
 namespace Tests\Feature;
 
 use Tests\ApiTestCase;
-use StreetWorks\Models\Car;
+use StreetWorks\Models\Image;
 use StreetWorks\Models\Avatar;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Foundation\Testing\WithFaker;
 
 class UsersApiTest extends ApiTestCase
 {
-    /** @test */
-    public function user_can_add_a_car()
-    {
-        $this->actAsUserUsingApi();
-        // Call api
-        $car = factory(Car::class)->make();
-        $response = $this->json('POST', route('car'), $car->toArray());
-        // Check database
-        $this->shouldSeeSuccessResponse($response);
-        $this->assertDatabaseHas(Car::table(), $car->toArray());
-    }
+    use WithFaker;
 
     /** @test */
     public function user_can_upload_an_avatar()
@@ -70,5 +61,23 @@ class UsersApiTest extends ApiTestCase
                 'email'    => $user->email,
                 'password' => $newPassword
             ], 'web');
+    }
+
+    /** @test */
+    public function user_can_upload_photos()
+    {
+        $this->actAsUserUsingApi();
+
+        // Call api
+        $title = $this->faker->words(5, true);
+        $response = $this->json('POST', route('upload-photo'), [
+            'photo' => UploadedFile::fake()->image('photo.jpg'),
+            'title' => $title
+        ]);
+
+        // Assert the file was stored...
+        $this->shouldSeeSuccessResponse($response)->assertDatabaseHas(Image::table(), [
+            'title' => $title
+        ]);
     }
 }

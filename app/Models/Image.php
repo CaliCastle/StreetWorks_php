@@ -2,8 +2,8 @@
 
 namespace StreetWorks\Models;
 
+use StreetWorks\Library\Model;
 use StreetWorks\Library\Traits\UUIDs;
-use Illuminate\Database\Eloquent\Model;
 
 class Image extends Model
 {
@@ -14,6 +14,12 @@ class Image extends Model
      *
      * @var bool
      */
-    protected $incrementing = false;
+    public $incrementing = false;
 
+    /**
+     * Fillable fields.
+     *
+     * @var array
+     */
+    protected $fillable = ['title', 'description', 'location'];
 }

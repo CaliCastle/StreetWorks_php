@@ -17,12 +17,12 @@ class CreatePostsTable extends Migration
             $table->bigIncrements('id');
             $table->mediumText('text')->nullable();
             $table->uuid('user_id');
-            $table->uuid('image_id');
-            $table->smallInteger('status');
+            $table->uuid('image_id')->nullable();
+            $table->smallInteger('status')->default(1);
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('image_id')->references('id')->on('images');
+            $table->foreign('image_id')->references('id')->on('images')->onDelete('cascade');
         });
 
         Schema::create('posts_likes', function (Blueprint $table) {
