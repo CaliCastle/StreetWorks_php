@@ -18,9 +18,20 @@ Route::prefix('v1')->group(function () {
         // Gets current user info
         Route::get('me', 'ProfileController@index')->name('profile');
         // Adds a car
-        Route::group(['prefix' => 'cars'], function () {
+        Route::prefix('cars')->group(function () {
 //            Route::get('{car_id}', '');
             Route::post('/', 'CarsController@create')->name('car');
+        });
+        // Profile routes
+        Route::prefix('profile')->group(function () {
+            // Update user's profile
+            Route::post('/', 'ProfileController@updateProfile')->name('update-profile');
+
+            // Upload user's avatar
+            Route::post('avatar', 'ProfileController@uploadAvatar')->name('upload-avatar');
+
+            // Change user's password
+            Route::post('password', 'ProfileController@changePassword')->name('password');
         });
     });
 

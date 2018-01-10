@@ -2,7 +2,7 @@
 
 namespace StreetWorks\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use StreetWorks\Library\Model;
 
 class Avatar extends Model
 {
@@ -22,6 +22,11 @@ class Avatar extends Model
      * The remote type lookup.
      */
     const REMOTE = 1;
+
+    /**
+     * The path for avatars.
+     */
+    const PATH = 'avatars';
 
     /**
      * Fillable attributes.

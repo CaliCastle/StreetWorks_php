@@ -2,8 +2,8 @@
 
 namespace StreetWorks\Models;
 
+use StreetWorks\Library\Model;
 use StreetWorks\Library\Traits\UUIDs;
-use Illuminate\Database\Eloquent\Model;
 
 class Car extends Model
 {
@@ -22,6 +22,6 @@ class Car extends Model
      * @var array
      */
     protected $fillable = [
-        'title', 'make', 'model', 'model_year', 'license'
+        'title', 'make', 'model', 'model_year', 'license', 'description'
     ];
 }

@@ -14,6 +14,12 @@ class CarsController extends Controller
      */
     public function create(CarsRequest $request)
     {
-        return $request->user()->cars()->create($request->all());
+        try {
+            $request->user()->cars()->create($request->all());
+
+            return $this->successResponse();
+        } catch (\Illuminate\Database\QueryException $e) {
+            return $this->errorResponse();
+        }
     }
 }

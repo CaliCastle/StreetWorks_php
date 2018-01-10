@@ -1,8 +1,6 @@
 <?php
 
-namespace StreetWorks\Library\Traits\Controller;
-
-use function Symfony\Component\Debug\Tests\testHeader;
+namespace StreetWorks\Library\Traits\Controllers;
 
 trait ApiResponse
 {

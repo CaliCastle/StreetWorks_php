@@ -2,6 +2,8 @@
 
 namespace Tests;
 
+use StreetWorks\Models\User;
+use Laravel\Passport\Passport;
 use Illuminate\Foundation\Testing\TestResponse;
 
 trait ApiHandling
@@ -13,7 +15,7 @@ trait ApiHandling
      */
     public function shouldSeeSuccessResponse(TestResponse $response)
     {
-        $this->shouldSeeResponseInJson(true, $response);
+        return $this->shouldSeeResponseInJson(true, $response);
     }
 
     /**
@@ -23,7 +25,7 @@ trait ApiHandling
      */
     public function shouldSeeFailureResponse(TestResponse $response)
     {
-        $this->shouldSeeResponseInJson(false, $response);
+        return $this->shouldSeeResponseInJson(false, $response);
     }
 
     /**
@@ -37,5 +39,28 @@ trait ApiHandling
         $response->assertJson([
             'status' => $success ? 'success' : 'error'
         ]);
+
+        return $this;
+    }
+
+    /**
+     * Act as and get the user.
+     *
+     * @param array $attributes
+     *
+     * @return mixed
+     */
+    protected function actAsUserUsingApi($attributes = [])
+    {
+        // Get user
+        if (empty($attributes)) {
+            $user = User::first();
+        } else {
+            $user = User::where($attributes)->first();
+        }
+        // Act as user
+        Passport::actingAs($user, ['*']);
+
+        return $user;
     }
 }

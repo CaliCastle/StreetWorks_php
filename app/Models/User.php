@@ -55,4 +55,32 @@ class User extends Authenticatable
     {
         return $this->hasMany(Car::class);
     }
+
+    /**
+     * Update attributes automatically.
+     *
+     * @param array $attributes
+     */
+    public function updateAttributes($attributes = [])
+    {
+        foreach ($attributes as $key => $value) {
+            if (!is_null($this->{$key})) {
+                $this->{$key} = $value;
+            }
+        }
+
+        if ($this->isDirty())
+            $this->save();
+    }
+
+    /**
+     * Change user's password.
+     *
+     * @param string $password
+     */
+    public function changePassword($password = '')
+    {
+        $this->password = bcrypt($password);
+        $this->save();
+    }
 }
