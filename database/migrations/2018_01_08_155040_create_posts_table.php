@@ -15,14 +15,14 @@ class CreatePostsTable extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->mediumText('text');
+            $table->mediumText('text')->nullable();
             $table->uuid('user_id');
             $table->uuid('image_id');
             $table->smallInteger('status');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('image_id')->references('id')->on('images')->onDelete('cascade');
+            $table->foreign('image_id')->references('id')->on('images');
         });
 
         Schema::create('posts_likes', function (Blueprint $table) {

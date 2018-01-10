@@ -45,4 +45,14 @@ class User extends Authenticatable
     {
         return $this->hasOne(Avatar::class);
     }
+
+    /**
+     * User's cars.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function cars()
+    {
+        return $this->hasMany(Car::class);
+    }
 }

@@ -3,8 +3,9 @@
 namespace StreetWorks\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
+use StreetWorks\Http\Controllers\Controller;
 
-class ProfileController
+class ProfileController extends Controller
 {
     /**
      * @param Request $request

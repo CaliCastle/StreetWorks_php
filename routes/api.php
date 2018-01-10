@@ -17,6 +17,11 @@ Route::prefix('v1')->group(function () {
     Route::namespace('Api')->middleware('auth:api')->group(function () {
         // Gets current user info
         Route::get('me', 'ProfileController@index')->name('profile');
+        // Adds a car
+        Route::group(['prefix' => 'cars'], function () {
+//            Route::get('{car_id}', '');
+            Route::post('/', 'CarsController@create')->name('car');
+        });
     });
 
     // Auth action routes

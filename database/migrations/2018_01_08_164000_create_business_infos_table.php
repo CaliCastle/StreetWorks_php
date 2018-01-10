@@ -16,7 +16,7 @@ class CreateBusinessInfosTable extends Migration
         Schema::create('business_infos', function (Blueprint $table) {
             $table->increments('id');
             $table->uuid('user_id');
-            $table->string('description');
+            $table->string('description')->nullable();
             $table->string('address_1');
             $table->string('address_2');
             $table->string('address_3');
