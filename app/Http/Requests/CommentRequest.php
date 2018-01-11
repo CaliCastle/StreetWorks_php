@@ -4,7 +4,7 @@ namespace StreetWorks\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class PostRequest extends FormRequest
+class CommentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,7 +25,7 @@ class PostRequest extends FormRequest
     {
         return [
             'text'     => 'required|string',
-            'image_id' => 'string|size:36|exists:images,id'
+            'image_id' => 'string|exists:images,id'
         ];
     }
 }

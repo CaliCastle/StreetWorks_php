@@ -77,6 +77,16 @@ class User extends Authenticatable
     }
 
     /**
+     * User's comments.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    /**
      * Update attributes automatically.
      *
      * @param array $attributes

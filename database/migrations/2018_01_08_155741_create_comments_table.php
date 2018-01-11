@@ -18,10 +18,12 @@ class CreateCommentsTable extends Migration
             $table->mediumText('text')->nullable();
             $table->unsignedSmallInteger('status')->default(1);
             $table->uuid('user_id');
+            $table->unsignedBigInteger('post_id');
             $table->uuid('image_id')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('post_id')->references('id')->on('posts')->onDelete('cascade');
         });
     }
 

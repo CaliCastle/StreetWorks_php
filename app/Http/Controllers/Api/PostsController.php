@@ -4,8 +4,10 @@ namespace StreetWorks\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use StreetWorks\Models\Post;
+use StreetWorks\Models\Comment;
 use StreetWorks\Http\Requests\PostRequest;
 use StreetWorks\Http\Controllers\Controller;
+use StreetWorks\Http\Requests\CommentRequest;
 
 class PostsController extends Controller
 {
@@ -36,6 +38,30 @@ class PostsController extends Controller
         $user = $request->user();
 
         $user->likeOrUnlike($post);
+
+        return $this->successResponse();
+    }
+
+    /**
+     * @param Post    $post
+     * @param Request $request
+     *
+     * @return array
+     */
+    public function comment(Post $post, CommentRequest $request)
+    {
+        $user = $request->user();
+
+        $comment = $user->comments()->make([
+            'text'    => $request->input('text'),
+            'post_id' => $post->id
+        ]);
+
+        if ($request->has('image_id')) {
+            $comment->image_id = $request->input('image_id');
+        }
+
+        $comment->save();
 
         return $this->successResponse();
     }

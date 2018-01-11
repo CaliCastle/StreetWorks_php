@@ -43,6 +43,10 @@ Route::prefix('v1')->group(function () {
 
             // Get a post
             Route::get('{post}', 'PostsController@show')->name('post');
+
+            // Comment on a post
+            Route::post('{post}/comments', 'PostsController@comment')->name('comment-post');
+
             // Like a post
             Route::patch('{post}', 'PostsController@likeOrUnlike');
         });
