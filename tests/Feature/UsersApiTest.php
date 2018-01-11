@@ -80,4 +80,54 @@ class UsersApiTest extends ApiTestCase
             'title' => $title
         ]);
     }
+
+    /** @test */
+    public function user_can_add_business_info()
+    {
+        $this->actAsUserUsingApi();
+
+        // Call api
+        $response = $this->json('POST', route('business'), [
+            'description' => $this->faker->sentences(3, true),
+            'address_1'   => $this->faker->streetAddress,
+            'address_2'   => $this->faker->address,
+            'city'        => 'Seattle',
+            'state'       => 'WA',
+            'country'     => 'USA',
+            'phone'       => '2064565294',
+            'email'       => 'info@8ninths.com'
+        ]);
+        // Assert success
+        $this->shouldSeeSuccessResponse($response);
+    }
+
+    /** @test */
+    public function user_can_view_business_info()
+    {
+        $user = $this->actAsUserUsingApi();
+
+        // Call api
+        $response = $this->json('GET', route('business-info', ['user' => $user->id]));
+        // Assert success
+        $this->shouldSeeSuccessResponse($response);
+    }
+
+    /** @test */
+    public function user_can_update_business_info()
+    {
+        $this->actAsUserUsingApi();
+
+        // Call api
+        $response = $this->json('PATCH', route('business'), [
+            'address_1'   => $this->faker->streetAddress,
+            'address_2'   => $this->faker->address,
+            'city'        => 'Seattle',
+            'state'       => 'WA',
+            'country'     => 'USA',
+            'phone'       => '2064565294',
+            'email'       => 'info@8ninths.com'
+        ]);
+        // Assert success
+        $this->shouldSeeSuccessResponse($response);
+    }
 }

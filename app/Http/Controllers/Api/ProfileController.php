@@ -4,12 +4,14 @@ namespace StreetWorks\Http\Controllers\Api;
 
 use Storage;
 use Illuminate\Http\Request;
+use StreetWorks\Models\User;
 use StreetWorks\Models\Avatar;
 use Illuminate\Http\UploadedFile;
 use StreetWorks\Http\Controllers\Controller;
 use StreetWorks\Http\Requests\AvatarRequest;
 use StreetWorks\Http\Requests\ProfileRequest;
 use StreetWorks\Http\Requests\PasswordRequest;
+use StreetWorks\Http\Requests\BusinessInfoRequest;
 
 class ProfileController extends Controller
 {
@@ -88,6 +90,72 @@ class ProfileController extends Controller
     public function changePassword(PasswordRequest $request)
     {
         $request->user()->changePassword($request->get('password'));
+
+        return $this->successResponse();
+    }
+
+    /**
+     * Show profile for a user.
+     *
+     * @param User $user
+     *
+     * @return array
+     */
+    public function profile(User $user)
+    {
+        return $this->successResponse(compact('user'));
+    }
+
+    /**
+     * Get user's business info.
+     *
+     * @param User $user
+     *
+     * @return array
+     */
+    public function getBusinessInfo(User $user)
+    {
+        if ($user->is_business) {
+            $info = $user->businessInfo;
+
+            return $this->successResponse(compact('info'));
+        }
+
+        return $this->errorResponse('No business info');
+    }
+
+    /**
+     * Create business info for user.
+     *
+     * @param BusinessInfoRequest $request
+     *
+     * @return array
+     */
+    public function createBusinessInfo(BusinessInfoRequest $request)
+    {
+        try {
+            $request->user()->createBusinessInfo($request->all());
+        } catch (\Exception $e) {
+            return $this->errorResponse($e->getMessage());
+        }
+
+        return $this->successResponse();
+    }
+
+    /**
+     * Update business info for user.
+     *
+     * @param BusinessInfoRequest $request
+     *
+     * @return array
+     */
+    public function updateBusinessInfo(BusinessInfoRequest $request)
+    {
+        try {
+            $request->user()->updateBusinessInfo($request->all());
+        } catch (\Exception $e) {
+            return $this->errorResponse($e->getMessage());
+        }
 
         return $this->successResponse();
     }

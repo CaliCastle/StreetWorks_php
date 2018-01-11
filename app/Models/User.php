@@ -87,6 +87,16 @@ class User extends Authenticatable
     }
 
     /**
+     * User's business info.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function businessInfo()
+    {
+        return $this->hasOne(BusinessInfo::class);
+    }
+
+    /**
      * Update attributes automatically.
      *
      * @param array $attributes
@@ -94,7 +104,7 @@ class User extends Authenticatable
     public function updateAttributes($attributes = [])
     {
         foreach ($attributes as $key => $value) {
-            if (!is_null($this->{$key})) {
+            if (! is_null($this->{$key})) {
                 $this->{$key} = $value;
             }
         }
@@ -122,5 +132,37 @@ class User extends Authenticatable
     public function likeOrUnlike(Post $post)
     {
         $this->likedPosts()->toggle([$post->id]);
+    }
+
+    /**
+     * Create user's business info.
+     *
+     * @param array $attributes
+     * @throws \Exception
+     */
+    public function createBusinessInfo($attributes = [])
+    {
+        if (! is_null($this->businessInfo))
+            throw new \Exception('Already have business info');
+
+        $this->businessInfo()->create($attributes);
+
+        $this->is_business = true;
+        $this->save();
+    }
+
+    /**
+     * Update user's business info.
+     *
+     * @param array $attributes
+     *
+     * @throws \Exception
+     */
+    public function updateBusinessInfo($attributes = [])
+    {
+        if (is_null($this->businessInfo))
+            throw new \Exception('No business info found');
+
+        $this->businessInfo()->update($attributes);
     }
 }

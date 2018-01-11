@@ -63,7 +63,7 @@ trait ApiResponse
      */
     protected function shouldReturnJson()
     {
-        return request()->ajax() || str_contains(request()->getUri(), 'api/');
+        return request()->ajax() || request()->acceptsJson() || request()->expectsJson();
     }
 
     /**

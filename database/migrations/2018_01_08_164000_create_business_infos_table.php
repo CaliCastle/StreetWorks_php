@@ -19,8 +19,8 @@ class CreateBusinessInfosTable extends Migration
             $table->string('description')->nullable();
             $table->string('address_1');
             $table->string('address_2');
-            $table->string('address_3');
-            $table->string('city');
+            $table->string('address_3')->nullable();
+            $table->string('city', 100);
             $table->char('state', 2);
             $table->char('country', 3);
             $table->char('phone', 11);

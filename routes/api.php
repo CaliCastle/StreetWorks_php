@@ -17,9 +17,19 @@ Route::prefix('v1')->group(function () {
     Route::namespace('Api')->middleware('auth:api')->group(function () {
         // Gets current user info
         Route::get('me', 'ProfileController@index')->name('profile');
+
+        // Get user profile by id
+        Route::get('profile/{user}', 'ProfileController@profile');
+
+        Route::get('profile/{user}/business-info', 'ProfileController@getBusinessInfo')->name('business-info');
+
+        // Add business info for user
+        Route::post('business', 'ProfileController@createBusinessInfo')->name('business');
+        Route::patch('business', 'ProfileController@updateBusinessInfo');
+
         // Cars routes
         Route::prefix('cars')->group(function () {
-//            Route::get('{car_id}', '');
+            Route::get('{car}', 'CarsController@index')->name('show-car');
 
             // Adds a car
             Route::post('/', 'CarsController@create')->name('car');
