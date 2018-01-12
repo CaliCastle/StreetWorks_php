@@ -4,8 +4,8 @@ namespace StreetWorks\Http\Controllers\Auth;
 
 use Illuminate\Http\Request;
 use StreetWorks\Models\User;
-use StreetWorks\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
+use StreetWorks\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
 class RegisterController extends Controller
@@ -77,11 +77,13 @@ class RegisterController extends Controller
     }
 
     /**
+     * After registration.
+     *
      * @param Request $request
      * @param         $user
      */
     protected function registered(Request $request, $user)
     {
-        return $this->successResponse();
+        return $this->successResponse(compact('user'));
     }
 }
