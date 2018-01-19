@@ -59,7 +59,7 @@ class ProfileController extends Controller
             }
 
             return $this->successResponse([
-                'source' => url('avatars/' . $fileName)
+                'source' => url(Avatar::PATH . '/' . $fileName)
             ]);
         }
 

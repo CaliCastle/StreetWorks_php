@@ -24,7 +24,7 @@ class PhotoRequest extends FormRequest
     public function rules()
     {
         return [
-            'title'       => 'required|string|max:255',
+            'title'       => 'string|max:255',
             'description' => 'string',
             'photo'       => 'required|image'
         ];

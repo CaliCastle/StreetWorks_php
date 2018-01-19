@@ -26,13 +26,13 @@ class UsersController extends Controller
             // Store file into disk
             $file->storePubliclyAs('uploads', $fileName);
             // Persist to database
-            Image::create([
-                'title'       => $request->input('title'),
-                'description' => $request->input('description'),
+            $image = Image::create([
+                'title'       => $request->input('title') ?? '',
+                'description' => $request->input('description') ?? '',
                 'location'    => $fileName
             ]);
 
-            return $this->successResponse();
+            return $this->successResponse(compact('image'));
         }
 
         return $this->errorResponse();
