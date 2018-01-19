@@ -22,6 +22,26 @@ class Car extends Model
      * @var array
      */
     protected $fillable = [
-        'title', 'make', 'model', 'model_year', 'license', 'description'
+        'name', 'manufacturer', 'model', 'year', 'license', 'description', 'image_id', 'primary'
     ];
+
+    /**
+     * Car's user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Car's image.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function image()
+    {
+        return $this->hasOne(Image::class);
+    }
 }

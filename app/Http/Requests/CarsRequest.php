@@ -24,12 +24,13 @@ class CarsRequest extends FormRequest
     public function rules()
     {
         return [
-            'title'      => 'required|max:255',
-            'make'       => 'required|max:255',
-            'model'      => 'required|max:20',
-            'model_year' => 'required|size:4',
-            'primary'    => 'boolean',
-            'license'    => 'max:11'
+            'name'         => 'max:255',
+            'manufacturer' => 'required|max:255',
+            'model'        => 'required|max:20',
+            'year'         => 'required|size:4',
+            'primary'      => 'boolean',
+            'license'      => 'max:11',
+            'image_id'     => 'exists:images,id'
         ];
     }
 }

@@ -25,7 +25,7 @@ Route::prefix('v1')->group(function () {
 
         // Add business info for user
         Route::post('business', 'ProfileController@createBusinessInfo')->name('business');
-        Route::patch('business', 'ProfileController@updateBusinessInfo');
+        Route::put('business', 'ProfileController@updateBusinessInfo');
 
         // Cars routes
         Route::prefix('cars')->group(function () {
@@ -33,6 +33,12 @@ Route::prefix('v1')->group(function () {
 
             // Adds a car
             Route::post('/', 'CarsController@create')->name('car');
+
+            // Updates a car
+            Route::put('{car}', 'CarsController@update')->name('update-car');
+
+            // Deletes a car
+            Route::delete('{car}', 'CarsController@delete')->name('delete-car');
         });
         // Profile routes
         Route::prefix('profile')->group(function () {
@@ -58,7 +64,7 @@ Route::prefix('v1')->group(function () {
             Route::post('{post}/comments', 'PostsController@comment')->name('comment-post');
 
             // Like a post
-            Route::patch('{post}', 'PostsController@likeOrUnlike');
+            Route::put('{post}', 'PostsController@likeOrUnlike');
         });
 
         // Upload a photo

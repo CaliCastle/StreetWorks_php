@@ -15,7 +15,7 @@ class CreateCarsTable extends Migration
     {
         Schema::create('cars', function (Blueprint $table) {
             $table->uuid('id')->unique();
-            $table->string('title');
+            $table->string('title')->default(' ');
             $table->string('make');
             $table->string('model');
             $table->mediumText('description')->nullable();

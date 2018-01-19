@@ -28,11 +28,44 @@ class CarsController extends Controller
     public function create(CarsRequest $request)
     {
         try {
-            $request->user()->cars()->create($request->all());
-
-            return $this->successResponse();
+            $car = $request->user()->cars()->create($request->all());
         } catch (\Illuminate\Database\QueryException $e) {
-            return $this->errorResponse();
+            return $this->errorResponse($e->getMessage());
         }
+
+        return $this->successResponse(compact('car'));
+    }
+
+    /**
+     * Update a car.
+     *
+     * @param CarsRequest $request
+     * @param Car         $car
+     *
+     * @return array
+     */
+    public function update(CarsRequest $request, Car $car)
+    {
+        $car->update($request->all());
+
+        return $this->successResponse(compact('car'));
+    }
+
+    /**
+     * Delete a car.
+     *
+     * @param Car $car
+     *
+     * @return array
+     */
+    public function delete(Car $car)
+    {
+        try {
+            $car->delete();
+        } catch (\Exception $e) {
+            return $this->errorResponse($e->getMessage());
+        }
+
+        return $this->successResponse();
     }
 }
