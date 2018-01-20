@@ -2,6 +2,7 @@
 
 namespace StreetWorks\Models;
 
+use Illuminate\Http\UploadedFile;
 use Laravel\Passport\HasApiTokens;
 use StreetWorks\Library\Traits\UUIDs;
 use Illuminate\Notifications\Notifiable;
@@ -97,6 +98,16 @@ class User extends Authenticatable
     }
 
     /**
+     * User's cover image.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function coverImage()
+    {
+        return $this->hasOne(Image::class, 'id', 'cover_image_id');
+    }
+
+    /**
      * Update attributes automatically.
      *
      * @param array $attributes
@@ -164,5 +175,28 @@ class User extends Authenticatable
             throw new \Exception('No business info found');
 
         $this->businessInfo()->update($attributes);
+    }
+
+    /**
+     * Store user's uploaded image.
+     *
+     * @param UploadedFile $file
+     * @param array        $attributes
+     *
+     * @return Image
+     */
+    public function storeImage(UploadedFile $file, array $attributes = [])
+    {
+        // Configure file name
+        $name = md5($file->hashName() . time());
+        $fileName = "{$this->id}/{$name}.{$file->extension()}";
+        // Store file into disk
+        $file->storePubliclyAs('uploads', $fileName);
+        // Persist to database
+        $image = Image::create(array_merge([
+            'location'    => $fileName
+        ], $attributes));
+
+        return $image;
     }
 }

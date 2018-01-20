@@ -21,15 +21,9 @@ class UsersController extends Controller
         $file = $request->file('photo');
 
         if ($file instanceof UploadedFile) {
-            // Configure file name
-            $fileName = "{$request->user()->id}/{$file->hashName()}";
-            // Store file into disk
-            $file->storePubliclyAs('uploads', $fileName);
-            // Persist to database
-            $image = Image::create([
-                'title'       => $request->input('title') ?? '',
-                'description' => $request->input('description') ?? '',
-                'location'    => $fileName
+            $image = $request->user()->storeImage($file, [
+                'title'       => '',
+                'description' => ''
             ]);
 
             return $this->successResponse(compact('image'));

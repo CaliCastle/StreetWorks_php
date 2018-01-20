@@ -40,6 +40,7 @@ Route::prefix('v1')->group(function () {
             // Deletes a car
             Route::delete('{car}', 'CarsController@delete')->name('delete-car');
         });
+
         // Profile routes
         Route::prefix('profile')->group(function () {
             // Update user's profile
@@ -47,6 +48,9 @@ Route::prefix('v1')->group(function () {
 
             // Upload user's avatar
             Route::post('avatar', 'ProfileController@uploadAvatar')->name('upload-avatar');
+
+            // Upload user's cover photo
+            Route::post('cover', 'ProfileController@uploadCoverImage');
 
             // Change user's password
             Route::post('password', 'ProfileController@changePassword')->name('password');

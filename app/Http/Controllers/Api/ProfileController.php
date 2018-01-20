@@ -67,6 +67,35 @@ class ProfileController extends Controller
     }
 
     /**
+     * Upload cover image.
+     *
+     * @param Request $request
+     *
+     * @return array
+     */
+    public function uploadCoverImage(Request $request)
+    {
+        $this->validate($request, [
+            'image' => 'required|image'
+        ]);
+
+        $file = $request->file('image');
+
+        if ($file instanceof UploadedFile) {
+            $image = $request->user()->storeImage($file, [
+                'title'       => '',
+                'description' => 'Cover photo'
+            ]);
+            $request->user()->cover_image_id = $image->id;
+            $request->user()->save();
+
+            return $this->successResponse(compact('image'));
+        }
+
+        return $this->errorResponse();
+    }
+
+    /**
      * Update user's profile.
      *
      * @param ProfileRequest $request
