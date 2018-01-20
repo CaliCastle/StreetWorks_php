@@ -3,6 +3,7 @@
 namespace StreetWorks\Http\Controllers\Api;
 
 use StreetWorks\Models\Car;
+use Illuminate\Http\Request;
 use StreetWorks\Http\Requests\CarsRequest;
 use StreetWorks\Http\Controllers\Controller;
 
@@ -39,13 +40,23 @@ class CarsController extends Controller
     /**
      * Update a car.
      *
-     * @param CarsRequest $request
+     * @param Request $request
      * @param Car         $car
      *
      * @return array
      */
-    public function update(CarsRequest $request, Car $car)
+    public function update(Request $request, Car $car)
     {
+        $this->validate($request, [
+            'name'         => 'max:255',
+            'manufacturer' => 'max:255',
+            'model'        => 'max:20',
+            'year'         => 'size:4',
+            'primary'      => 'boolean',
+            'license'      => 'max:18',
+            'image_id'     => 'exists:images,id'
+        ]);
+
         $car->update($request->all());
 
         return $this->successResponse(compact('car'));

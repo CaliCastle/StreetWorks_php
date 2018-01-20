@@ -29,7 +29,7 @@ class CarsRequest extends FormRequest
             'model'        => 'required|max:20',
             'year'         => 'required|size:4',
             'primary'      => 'boolean',
-            'license'      => 'max:11',
+            'license'      => 'max:18',
             'image_id'     => 'exists:images,id'
         ];
     }

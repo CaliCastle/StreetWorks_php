@@ -23,7 +23,7 @@ class CreateCarsTable extends Migration
             $table->uuid('user_id');
             $table->char('model_year', 4);
             $table->boolean('primary')->default(false);
-            $table->string('license', 11)->nullable();
+            $table->string('license', 18)->nullable();
             $table->timestamps();
 
             $table->primary('id');
