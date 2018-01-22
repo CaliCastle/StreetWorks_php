@@ -188,4 +188,30 @@ class ProfileController extends Controller
 
         return $this->successResponse();
     }
+
+    /**
+     * Use user's Facebook avatar.
+     *
+     * @param Request $request
+     *
+     * @return array
+     */
+    public function useFacebookAvatar(Request $request)
+    {
+        $source = 'https://graph.facebook.com/v2.5/' . $request->user()->facebook_id . '/picture?width=800';
+
+        if ($request->user()->avatar instanceof Avatar) {
+            $request->user()->avatar()->update([
+                'source' => $source,
+                'type'   => Avatar::REMOTE
+            ]);
+        } else {
+            $request->user()->avatar()->create([
+                'source' => $source,
+                'type'   => Avatar::REMOTE
+            ]);
+        }
+
+        return $this->successResponse(compact('source'));
+    }
 }

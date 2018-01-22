@@ -86,4 +86,62 @@ class RegisterController extends Controller
     {
         return $this->successResponse(compact('user'));
     }
+
+    /**
+     * Register user using Facebook.
+     *
+     * @param Request $request
+     *
+     * @return array
+     */
+    public function registerUsingFacebook(Request $request)
+    {
+        $this->validate($request, [
+            'id'    => 'required',
+            'name'  => 'required|string',
+            'email' => 'required|email',
+            'token' => 'required'
+        ]);
+        // Check if a user has connected or not
+        $user = User::where('username', $request->input('id'))
+            ->orWhere('facebook_id', $request->input('id'))
+            ->first();
+
+        if ($user instanceof User) {
+            // Connect user to Facebook
+            $user->facebook_token = $request->input('token');
+            $user->facebook_id = $request->input('id');
+
+            $user->save();
+
+            return $this->successResponse([
+                'registered' => "false",
+                'email'      => $user->email,
+            ]);
+        } else {
+            // Create user from Facebook
+            $firstName = $request->input('name');
+            $lastName = $request->input('name');
+            // Get first and last name
+            if ($names = explode(' ', $request->input('name'))) {
+                $firstName = array_first($names);
+                $lastName = array_last($names);
+            }
+            // Persist to database
+            $user = User::create([
+                'username'       => $request->input('id'),
+                'email'          => $request->input('email'),
+                'facebook_id'    => $request->input('id'),
+                'facebook_token' => $request->input('token'),
+                'first_name'     => $firstName,
+                'last_name'      => $lastName,
+                'password'       => bcrypt($request->input('id'))
+            ]);
+
+            return $this->successResponse([
+                'registered' => "true",
+                'email'      => $user->email
+            ]);
+        }
+    }
 }

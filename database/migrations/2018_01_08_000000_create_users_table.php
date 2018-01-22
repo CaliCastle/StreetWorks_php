@@ -19,11 +19,12 @@ class CreateUsersTable extends Migration
             $table->string('last_name');
             $table->string('username')->unique();
             $table->string('email')->unique();
-            $table->string('password');
+            $table->string('password')->nullable();
             $table->smallInteger('status')->default(1);
             $table->boolean('is_business')->default(false);
             $table->unsignedBigInteger('notoriety')->default(0);
-            $table->string('facebook_id')->nullable();
+            $table->string('facebook_id')->nullable()->index();
+            $table->string('facebook_token')->nullable();
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

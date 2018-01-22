@@ -73,6 +73,9 @@ Route::prefix('v1')->group(function () {
 
         // Upload a photo
         Route::post('photo', 'UsersController@uploadPhoto')->name('upload-photo');
+
+        // Set avatar to facebook profile pic
+        Route::post('avatar-facebook', 'ProfileController@useFacebookAvatar');
     });
 
     // Auth action routes
@@ -82,5 +85,8 @@ Route::prefix('v1')->group(function () {
 
         // Registers a user
         Route::post('sign-up', 'RegisterController@register')->name('sign-up');
+
+        // Registers using Facebook
+        Route::post('facebook', 'RegisterController@registerUsingFacebook');
     });
 });
