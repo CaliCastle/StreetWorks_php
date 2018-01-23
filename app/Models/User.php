@@ -115,7 +115,7 @@ class User extends Authenticatable
     public function updateAttributes($attributes = [])
     {
         foreach ($attributes as $key => $value) {
-            if (! is_null($this->{$key})) {
+            if (! empty($value)) {
                 $this->{$key} = $value;
             }
         }

@@ -33,7 +33,8 @@ class ProfileRequest extends FormRequest
                 'email',
                 'max:255',
                 Rule::unique('users')->ignore($this->user()->id)
-            ]
+            ],
+            'website'    => 'string'
         ];
     }
 }

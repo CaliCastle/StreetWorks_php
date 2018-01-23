@@ -24,7 +24,23 @@ class ProfileController extends Controller
      */
     public function index(Request $request)
     {
-        return $request->user();
+        $user = $request->user();
+
+        return $this->successResponse([
+            'user' => [
+                'first_name'  => $user->first_name,
+                'last_name'   => $user->last_name,
+                'username'    => $user->username,
+                'email'       => $user->email,
+                'status'      => $user->status,
+                'is_business' => $user->is_business,
+                'notoriety'   => $user->notoriety,
+                'website'     => $user->website,
+                'description' => $user->description,
+                'hashtags'    => $user->hashtags,
+                'cover_image' => $user->cover_image
+            ]
+        ]);
     }
 
     /**

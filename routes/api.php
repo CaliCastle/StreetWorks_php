@@ -44,7 +44,7 @@ Route::prefix('v1')->group(function () {
         // Profile routes
         Route::prefix('profile')->group(function () {
             // Update user's profile
-            Route::post('/', 'ProfileController@updateProfile')->name('update-profile');
+            Route::put('/', 'ProfileController@updateProfile')->name('update-profile');
 
             // Upload user's avatar
             Route::post('avatar', 'ProfileController@uploadAvatar')->name('upload-avatar');
