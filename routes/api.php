@@ -53,7 +53,7 @@ Route::prefix('v1')->group(function () {
             Route::post('cover', 'ProfileController@uploadCoverImage');
 
             // Change user's password
-            Route::post('password', 'ProfileController@changePassword')->name('password');
+            Route::put('password', 'ProfileController@changePassword')->name('password');
         });
 
         // Posts routes

@@ -2,6 +2,7 @@
 
 namespace StreetWorks\Http\Controllers\Api;
 
+use Hash;
 use Storage;
 use Illuminate\Http\Request;
 use StreetWorks\Models\User;
@@ -134,9 +135,15 @@ class ProfileController extends Controller
      */
     public function changePassword(PasswordRequest $request)
     {
-        $request->user()->changePassword($request->get('password'));
+        $password = $request->password;
 
-        return $this->successResponse();
+        if (Hash::check($password, $request->user()->password)) {
+            $request->user()->changePassword($request->new_password);
+
+            return $this->successResponse();
+        }
+
+        return $this->errorResponse('Incorrect password');
     }
 
     /**
