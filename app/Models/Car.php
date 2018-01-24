@@ -42,6 +42,19 @@ class Car extends Model
      */
     public function image()
     {
-        return $this->hasOne(Image::class);
+        return $this->belongsTo(Image::class);
+    }
+
+    /**
+     * Convert the model instance to an array.
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        return array_merge(parent::toArray(), [
+            'image' => $this->image,
+            'user'  => $this->user
+        ]);
     }
 }

@@ -22,6 +22,20 @@ class CarsController extends Controller
     }
 
     /**
+     * Get all cars of a user.
+     *
+     * @param Request $request
+     *
+     * @return array
+     */
+    public function getAll(Request $request)
+    {
+        $cars = $request->user()->cars;
+
+        return $this->successResponse(compact('cars'));
+    }
+
+    /**
      * Create a car.
      *
      * @param CarsRequest $request

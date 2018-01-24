@@ -115,8 +115,9 @@ class RegisterController extends Controller
             $user->save();
 
             return $this->successResponse([
-                'registered' => "false",
-                'email'      => $user->email,
+                'registered'   => "false",
+                'email'        => $user->email,
+                'access_token' => $user->createToken('facebook', ['*'])->accessToken
             ]);
         } else {
             // Create user from Facebook
@@ -139,8 +140,9 @@ class RegisterController extends Controller
             ]);
 
             return $this->successResponse([
-                'registered' => "true",
-                'email'      => $user->email
+                'registered'   => "true",
+                'email'        => $user->email,
+                'access_token' => $user->createToken('facebook', ['*'])->accessToken
             ]);
         }
     }
