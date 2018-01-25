@@ -25,7 +25,9 @@ class Car extends Model
         'name', 'manufacturer', 'model', 'year', 'license', 'description', 'image_id', 'primary'
     ];
 
-    protected $casts = ['specs'];
+    protected $casts = [
+        'specs' => 'array'
+    ];
 
     /**
      * Spec types.
@@ -58,6 +60,16 @@ class Car extends Model
     }
 
     /**
+     * Car's mods.
+     *
+     * @return mixed
+     */
+    public function mods()
+    {
+        return $this->hasMany(CarMod::class);
+    }
+
+    /**
      * Convert the model instance to an array.
      *
      * @return array
@@ -65,8 +77,9 @@ class Car extends Model
     public function toArray()
     {
         return array_merge(parent::toArray(), [
-            'image' => $this->image,
-            'user'  => $this->user
+            'image'   => $this->image,
+            'user'    => $this->user,
+            'primary' => $this->primary ? 1 : 0
         ]);
     }
 }

@@ -4,8 +4,10 @@ namespace StreetWorks\Http\Controllers\Api;
 
 use StreetWorks\Models\Car;
 use Illuminate\Http\Request;
+use StreetWorks\Models\CarMod;
 use StreetWorks\Http\Requests\CarsRequest;
 use StreetWorks\Http\Controllers\Controller;
+use StreetWorks\Http\Requests\CarModRequest;
 
 class CarsController extends Controller
 {
@@ -39,11 +41,18 @@ class CarsController extends Controller
      * Create a car.
      *
      * @param CarsRequest $request
+     *
+     * @return array
      */
     public function create(CarsRequest $request)
     {
         try {
             $car = $request->user()->cars()->create($request->all());
+            $specs = $request->input('specs');
+
+            if (!empty($specs) && is_array($specs)) {
+                $car->specs = $specs;
+            }
         } catch (\Illuminate\Database\QueryException $e) {
             return $this->errorResponse($e->getMessage());
         }
@@ -87,6 +96,66 @@ class CarsController extends Controller
     {
         try {
             $car->delete();
+        } catch (\Exception $e) {
+            return $this->errorResponse($e->getMessage());
+        }
+
+        return $this->successResponse();
+    }
+
+    /**
+     * Create a car mod.
+     *
+     * @param CarModRequest $request
+     *
+     * @return array
+     */
+    public function createMod(CarModRequest $request)
+    {
+        $car = Car::findOrFail($request->input('car_id'));
+        $mod = $car->mods()->create($request->all());
+
+        return $this->successResponse(compact('mod'));
+    }
+
+    /**
+     * Get car mod.
+     *
+     * @param CarMod $mod
+     *
+     * @return CarMod
+     */
+    public function getMod(CarMod $mod)
+    {
+        return $this->successResponse(compact('mod'));
+    }
+
+    /**
+     * Update mod.
+     *
+     * @param CarMod        $mod
+     * @param CarModRequest $request
+     *
+     * @return array
+     */
+    public function updateMod(CarMod $mod, CarModRequest $request)
+    {
+        $mod->update($request->all());
+
+        return $this->successResponse(compact('mod'));
+    }
+
+    /**
+     * Delete mod.
+     *
+     * @param CarMod $mod
+     *
+     * @return array
+     */
+    public function deleteMod(CarMod $mod)
+    {
+        try {
+            $mod->delete();
         } catch (\Exception $e) {
             return $this->errorResponse($e->getMessage());
         }

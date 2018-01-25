@@ -15,11 +15,16 @@ class CreateCarModsTable extends Migration
     {
         Schema::create('car_mods', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('name');
             $table->text('description')->nullable();
             $table->uuid('image_id')->nullable();
+            $table->uuid('car_id');
             $table->unsignedSmallInteger('type')->default(0);
-            $table->timestamp('installed_at');
+            $table->timestamp('installed_at')->nullable();
             $table->timestamps();
+
+            $table->foreign('car_id')->references('id')->on('cars')->onDelete('cascade');
+            $table->foreign('image_id')->nullable()->references('id')->on('images')->onDelete('set null');
         });
     }
 
