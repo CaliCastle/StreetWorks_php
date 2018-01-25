@@ -25,6 +25,18 @@ class Car extends Model
         'name', 'manufacturer', 'model', 'year', 'license', 'description', 'image_id', 'primary'
     ];
 
+    protected $casts = ['specs'];
+
+    /**
+     * Spec types.
+     */
+    const SPEC_TYPE_ENGINE = 0;
+    const SPEC_TYPE_TRANSMISSION = 1;
+    const SPEC_TYPE_AERO = 2;
+    const SPEC_TYPE_SUSPENSION = 3;
+    const SPEC_TYPE_MISC = 4;
+    const SPEC_TYPE_CUSTOM = 5;
+
     /**
      * Car's user.
      *

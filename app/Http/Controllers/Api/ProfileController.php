@@ -39,6 +39,7 @@ class ProfileController extends Controller
                 'website'     => $user->website,
                 'description' => $user->description,
                 'hashtags'    => $user->hashtags,
+                'avatar'      => $user->avatar,
                 'cover_image' => $user->cover_image
             ]
         ]);
