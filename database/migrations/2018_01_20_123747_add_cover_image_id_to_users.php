@@ -15,7 +15,8 @@ class AddCoverImageIdToUsers extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->uuid('cover_image_id')->nullable();
-            $table->foreign('cover_image_id')->nullable()->references('id')->on('images');
+
+            $table->foreign('cover_image_id')->nullable()->references('id')->on('images')->onDelete('set null');
         });
     }
 

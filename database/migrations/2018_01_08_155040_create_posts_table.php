@@ -22,7 +22,7 @@ class CreatePostsTable extends Migration
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('image_id')->references('id')->on('images')->onDelete('cascade');
+            $table->foreign('image_id')->nullable()->references('id')->on('images')->onDelete('cascade');
         });
 
         Schema::create('posts_likes', function (Blueprint $table) {

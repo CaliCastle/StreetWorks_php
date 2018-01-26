@@ -16,7 +16,7 @@ class AddCarImageColumn extends Migration
         Schema::table('cars', function (Blueprint $table) {
             $table->uuid('image_id')->nullable();
 
-            $table->foreign('image_id')->nullable()->references('id')->on('images');
+            $table->foreign('image_id')->nullable()->references('id')->on('images')->onDelete('set null');
         });
     }
 
