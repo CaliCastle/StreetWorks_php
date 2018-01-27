@@ -22,7 +22,7 @@ class Car extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'manufacturer', 'model', 'year', 'license', 'description', 'image_id', 'primary'
+        'name', 'manufacturer', 'model', 'year', 'license', 'description', 'image_id', 'primary', 'specs', 'hashtags'
     ];
 
     protected $casts = [
