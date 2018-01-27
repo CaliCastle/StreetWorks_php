@@ -32,7 +32,7 @@ class CarsController extends Controller
      */
     public function getAll(Request $request)
     {
-        $cars = $request->user()->cars;
+        $cars = $request->user()->cars()->primaryFirst()->latest()->get();
 
         return $this->successResponse(compact('cars'));
     }
@@ -50,7 +50,7 @@ class CarsController extends Controller
             $car = $request->user()->cars()->create($request->all());
             $specs = $request->input('specs');
 
-            if (!empty($specs) && is_array($specs)) {
+            if (! empty($specs) && is_array($specs)) {
                 $car->specs = $specs;
             }
         } catch (\Illuminate\Database\QueryException $e) {
@@ -64,7 +64,7 @@ class CarsController extends Controller
      * Update a car.
      *
      * @param Request $request
-     * @param Car         $car
+     * @param Car     $car
      *
      * @return array
      */
@@ -79,6 +79,16 @@ class CarsController extends Controller
             'license'      => 'max:18',
             'image_id'     => 'exists:images,id'
         ]);
+
+        // User should at least have one primary car
+        if (! $request->user()->cars()->where('primary', true)->exists()) {
+            $request->replace(['primary' => true]);
+        }
+
+        // If primary car exists, set that to non-primary
+        if (boolval($request->input('primary'))) {
+            $request->user()->cars()->where('primary', true)->update(['primary' => false]);
+        }
 
         $car->update($request->all());
 

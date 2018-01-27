@@ -82,4 +82,28 @@ class Car extends Model
             'primary' => $this->primary ? 1 : 0
         ]);
     }
+
+    /**
+     * Set primary first order.
+     *
+     * @param $query
+     *
+     * @return mixed
+     */
+    public function scopePrimaryFirst($query)
+    {
+        return $query->orderBy('primary', 'desc');
+    }
+
+    /**
+     * Set latest first order.
+     *
+     * @param $query
+     *
+     * @return mixed
+     */
+    public function scopeLatest($query)
+    {
+        return $query->orderBy('updated_at', 'desc');
+    }
 }
