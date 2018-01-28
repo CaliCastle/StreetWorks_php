@@ -175,7 +175,7 @@ return [
          */
         StreetWorks\Providers\AppServiceProvider::class,
         StreetWorks\Providers\AuthServiceProvider::class,
-        // StreetWorks\Providers\BroadcastServiceProvider::class,
+        StreetWorks\Providers\BroadcastServiceProvider::class,
         StreetWorks\Providers\EventServiceProvider::class,
         StreetWorks\Providers\RouteServiceProvider::class,
 

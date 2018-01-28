@@ -63,30 +63,21 @@ class CarsController extends Controller
     /**
      * Update a car.
      *
-     * @param Request $request
+     * @param CarsRequest $request
      * @param Car     $car
      *
      * @return array
      */
-    public function update(Request $request, Car $car)
+    public function update(CarsRequest $request, Car $car)
     {
-        $this->validate($request, [
-            'name'         => 'max:255',
-            'manufacturer' => 'max:255',
-            'model'        => 'max:20',
-            'year'         => 'size:4',
-            'primary'      => 'boolean',
-            'license'      => 'max:18',
-            'image_id'     => 'exists:images,id'
-        ]);
-
         // User should at least have one primary car
-        if (! $request->user()->cars()->where('primary', true)->exists()) {
-            $request->replace(['primary' => true]);
-        }
+        $isPrimary = boolval($request->input('primary'));
+        $hasPrimary = $request->user()->cars()->where([['primary', true], ['id', '!=', $request->input('id')]])->exists();
 
-        // If primary car exists, set that to non-primary
-        if (boolval($request->input('primary'))) {
+        // Input primary is false and user doesn't have a primary car, set it to primary
+        if (! $isPrimary && ! $hasPrimary) {
+            $request->replace(['primary' => true]);
+        } elseif ($isPrimary && $hasPrimary) {
             $request->user()->cars()->where('primary', true)->update(['primary' => false]);
         }
 
