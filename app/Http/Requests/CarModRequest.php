@@ -26,8 +26,7 @@ class CarModRequest extends FormRequest
         return [
             'name'        => 'required|string|max:255',
             'type'        => 'required|numeric',
-            'car_id'      => 'required|exists:cars,id',
-            'image_id'    => 'exists:images,id',
+            'image_id'    => 'nullable|exists:images,id',
             'description' => 'string'
         ];
     }

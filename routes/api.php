@@ -44,13 +44,12 @@ Route::prefix('v1')->group(function () {
             // Deletes a car
             Route::delete('{car}', 'CarsController@delete')->name('delete-car');
 
-            Route::prefix('{car}/mods')->group(function () {
-                Route::get('{car_mod}', 'CarsController@getMod');
-                Route::get('/', 'CarsController@getAllMods');
-                Route::post('/', 'CarsController@createMod');
-                Route::put('{car_mod}', 'CarsController@updateMod');
-                Route::delete('{car_mod}', 'CarsController@deleteMod');
-            });
+            // Mods routes
+            Route::post('{car}/mods', 'CarsController@createMod');
+            Route::get('{car}/mods', 'CarsController@getAllMods');
+            Route::get('{car}/mods/{mod}', 'CarsController@getMod');
+            Route::put('mods/{mod}', 'CarsController@updateMod');
+            Route::delete('mods/{mod}', 'CarsController@deleteMod');
         });
 
         // Profile routes

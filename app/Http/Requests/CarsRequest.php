@@ -30,7 +30,7 @@ class CarsRequest extends FormRequest
             'year'         => 'required|size:4',
             'primary'      => 'boolean',
             'license'      => 'max:18',
-            'image_id'     => 'exists:images,id'
+            'image_id'     => 'nullable|exists:images,id'
         ];
     }
 }

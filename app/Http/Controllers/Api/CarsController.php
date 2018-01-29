@@ -156,8 +156,12 @@ class CarsController extends Controller
      *
      * @return array
      */
-    public function updateMod(Car $car, CarMod $mod, CarModRequest $request)
+    public function updateMod(CarMod $mod, CarModRequest $request)
     {
+        if ($request->user()->id !== $mod->car->user->id) {
+            return $this->errorResponse('Not yours to edit!');
+        }
+
         $mod->update($request->all());
 
         return $this->successResponse(compact('mod'));
@@ -170,8 +174,12 @@ class CarsController extends Controller
      *
      * @return array
      */
-    public function deleteMod(Car $car, CarMod $mod)
+    public function deleteMod(Request $request, CarMod $mod)
     {
+        if ($request->user()->id !== $mod->car->user->id) {
+            return $this->errorResponse('Not yours to delete');
+        }
+
         try {
             $mod->delete();
         } catch (\Exception $e) {
