@@ -41,4 +41,28 @@ class CarMod extends Model
     {
         return $this->belongsTo(Image::class);
     }
+
+    /**
+     * Set latest first order.
+     *
+     * @param $query
+     *
+     * @return mixed
+     */
+    public function scopeLatest($query)
+    {
+        return $query->orderBy('updated_at', 'desc');
+    }
+
+    /**
+     * Convert the model instance to an array.
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        return array_merge(parent::toArray(), [
+            'image'   => $this->image
+        ]);
+    }
 }

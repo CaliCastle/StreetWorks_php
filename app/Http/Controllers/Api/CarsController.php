@@ -111,9 +111,8 @@ class CarsController extends Controller
      *
      * @return array
      */
-    public function createMod(CarModRequest $request)
+    public function createMod(CarModRequest $request, Car $car)
     {
-        $car = Car::findOrFail($request->input('car_id'));
         $mod = $car->mods()->create($request->all());
 
         return $this->successResponse(compact('mod'));
@@ -126,9 +125,27 @@ class CarsController extends Controller
      *
      * @return CarMod
      */
-    public function getMod(CarMod $mod)
+    public function getMod(Car $car, CarMod $mod)
     {
+        if ($mod->car_id !== $car->id) {
+            return $this->errorResponse('Mod does not belong to this car!');
+        }
+
         return $this->successResponse(compact('mod'));
+    }
+
+    /**
+     * Get all mods.
+     *
+     * @param Car $car
+     *
+     * @return array
+     */
+    public function getAllMods(Car $car)
+    {
+        $mods = $car->mods()->latest()->get();
+
+        return $this->successResponse(compact('mods'));
     }
 
     /**
@@ -139,7 +156,7 @@ class CarsController extends Controller
      *
      * @return array
      */
-    public function updateMod(CarMod $mod, CarModRequest $request)
+    public function updateMod(Car $car, CarMod $mod, CarModRequest $request)
     {
         $mod->update($request->all());
 
@@ -153,7 +170,7 @@ class CarsController extends Controller
      *
      * @return array
      */
-    public function deleteMod(CarMod $mod)
+    public function deleteMod(Car $car, CarMod $mod)
     {
         try {
             $mod->delete();
