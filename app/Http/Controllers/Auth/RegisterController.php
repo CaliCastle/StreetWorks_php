@@ -107,43 +107,72 @@ class RegisterController extends Controller
             ->orWhere('facebook_id', $request->input('id'))
             ->first();
 
-        if ($user instanceof User) {
-            // Connect user to Facebook
-            $user->facebook_token = $request->input('token');
-            $user->facebook_id = $request->input('id');
+        return $user instanceof User ? $this->connectToFacebook($request, $user) : $this->createFromFacebook($request);
+    }
 
-            $user->save();
+    /**
+     * Connect user to Facebook account.
+     *
+     * @param Request $request
+     * @param         $user
+     *
+     * @return array
+     */
+    public function connectToFacebook(Request $request, $user): array
+    {
+        // Connect user to Facebook
+        $user->facebook_token = $request->input('token');
+        $user->facebook_id = $request->input('id');
 
-            return $this->successResponse([
-                'registered'   => "false",
-                'email'        => $user->email,
-                'access_token' => $user->createToken('facebook', ['*'])->accessToken
-            ]);
-        } else {
-            // Create user from Facebook
-            $firstName = $request->input('name');
-            $lastName = $request->input('name');
-            // Get first and last name
-            if ($names = explode(' ', $request->input('name'))) {
-                $firstName = array_first($names);
-                $lastName = array_last($names);
-            }
-            // Persist to database
-            $user = User::create([
-                'username'       => $request->input('id'),
-                'email'          => $request->input('email'),
-                'facebook_id'    => $request->input('id'),
-                'facebook_token' => $request->input('token'),
-                'first_name'     => $firstName,
-                'last_name'      => $lastName,
-                'password'       => bcrypt($request->input('id'))
-            ]);
+        $user->save();
 
-            return $this->successResponse([
-                'registered'   => "true",
-                'email'        => $user->email,
-                'access_token' => $user->createToken('facebook', ['*'])->accessToken
-            ]);
+        return $this->successResponse([
+            'registered'   => "false",
+            'email'        => $user->email,
+            'access_token' => $user->createToken('facebook', ['*'])->accessToken
+        ]);
+    }
+
+    /**
+     * Create user from Facebook account.
+     *
+     * @param Request $request
+     *
+     * @return array
+     */
+    public function createFromFacebook(Request $request): array
+    {
+        // Create user from Facebook
+        $firstName = $request->input('name');
+        $lastName = $request->input('name');
+        // Get first and last name
+        if ($names = explode(' ', $request->input('name'))) {
+            $firstName = array_first($names);
+            $lastName = array_last($names);
         }
+
+        $username = $firstName . $lastName;
+
+        // Check does username already exist
+        if (User::where(compact('username'))->exists()) {
+            $username = $username . '-' . str_random(4);
+        }
+
+        // Persist to database
+        $user = User::create([
+            'username'       => $username,
+            'email'          => $request->input('email'),
+            'facebook_id'    => $request->input('id'),
+            'facebook_token' => $request->input('token'),
+            'first_name'     => $firstName,
+            'last_name'      => $lastName,
+            'password'       => bcrypt($request->input('id'))
+        ]);
+
+        return $this->successResponse([
+            'registered'   => "true",
+            'email'        => $user->email,
+            'access_token' => $user->createToken('facebook', ['*'])->accessToken
+        ]);
     }
 }
