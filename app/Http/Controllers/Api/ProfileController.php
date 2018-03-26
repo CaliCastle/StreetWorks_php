@@ -5,6 +5,7 @@ namespace StreetWorks\Http\Controllers\Api;
 use Hash;
 use Storage;
 use Illuminate\Http\Request;
+use StreetWorks\Models\Image;
 use StreetWorks\Models\User;
 use StreetWorks\Models\Avatar;
 use Illuminate\Http\UploadedFile;
@@ -237,5 +238,12 @@ class ProfileController extends Controller
         }
 
         return $this->successResponse(compact('source'));
+    }
+
+    public function test()
+    {
+        $image = Image::first();
+
+        return $image->aspectRatio();
     }
 }

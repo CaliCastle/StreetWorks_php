@@ -22,4 +22,16 @@ class Image extends Model
      * @var array
      */
     protected $fillable = ['title', 'description', 'location'];
+
+    /**
+     * Get image's aspect ratio.
+     *
+     * @return float|int
+     */
+    public function aspectRatio()
+    {
+        list($width, $height) = getimagesize(storage_path('app/uploads/' . $this->location));
+
+        return $width / $height;
+    }
 }

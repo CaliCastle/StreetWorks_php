@@ -15,6 +15,11 @@
 Route::prefix('v1')->group(function () {
     // Authenticated routes
     Route::namespace('Api')->middleware('auth:api')->group(function () {
+
+        // TODO: Temporary
+        Route::get('test', 'ProfileController@test');
+
+
         // Gets current user info
         Route::get('me', 'ProfileController@index')->name('profile');
 
