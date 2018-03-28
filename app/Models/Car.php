@@ -106,4 +106,14 @@ class Car extends Model
     {
         return $query->orderBy('updated_at', 'desc');
     }
+
+    /**
+     * Get car full name.
+     *
+     * @return string
+     */
+    public function fullName()
+    {
+        return $this->year . ' ' . $this->manufacturer . ' ' . $this->model;
+    }
 }

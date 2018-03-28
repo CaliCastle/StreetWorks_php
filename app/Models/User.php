@@ -58,6 +58,16 @@ class User extends Authenticatable
     }
 
     /**
+     * Get primary car.
+     *
+     * @return \Illuminate\Database\Eloquent\Model|null|static
+     */
+    public function primaryCar()
+    {
+        return $this->cars()->where('primary', true)->first();
+    }
+
+    /**
      * User's posts.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

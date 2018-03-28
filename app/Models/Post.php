@@ -80,13 +80,17 @@ class Post extends Model
      */
     protected function apiAttributes()
     {
+        $primaryCar = $this->user->primaryCar();
+
         return [
             'image_url'    => $this->image->url,
             'image_aspect' => $this->image->aspectRatio(),
             'time_ago'     => $this->readableTimeAgo(),
             'user'         => [
-                'username' => $this->user->username,
-                'avatar'   => optional($this->user->avatar)->url
+                'username'  => $this->user->username,
+                'avatar'    => optional($this->user->avatar)->url,
+                'car_model' => optional($primaryCar)->fullName(),
+                'car_image' => optional(optional($primaryCar)->image)->url
             ],
             'meta'         => [
                 'likes'    => $this->likes()->count(),
