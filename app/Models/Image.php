@@ -24,6 +24,16 @@ class Image extends Model
     protected $fillable = ['title', 'description', 'location'];
 
     /**
+     * Get url attribute.
+     *
+     * @return \Illuminate\Contracts\Routing\UrlGenerator|string
+     */
+    public function getUrlAttribute()
+    {
+        return url('uploads/' . $this->location);
+    }
+
+    /**
      * Get image's aspect ratio.
      *
      * @return float|int

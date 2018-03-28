@@ -30,7 +30,7 @@ class Post extends Model
      */
     public function image()
     {
-        return $this->hasOne(Image::class);
+        return $this->belongsTo(Image::class);
     }
 
     /**
@@ -41,5 +41,57 @@ class Post extends Model
     public function likes()
     {
         return $this->belongsToMany(User::class, 'posts_likes');
+    }
+
+    /**
+     * Comments of the post.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    /**
+     * Get readable time ago info.
+     *
+     * @return string
+     */
+    public function readableTimeAgo()
+    {
+        return $this->created_at->diffForHumans();
+    }
+
+    /**
+     * Convert the model instance to an array.
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        return array_merge(parent::toArray(), $this->apiAttributes());
+    }
+
+    /**
+     * Extra api attributes for feed.
+     *
+     * @return array
+     */
+    protected function apiAttributes()
+    {
+        return [
+            'image_url'    => $this->image->url,
+            'image_aspect' => $this->image->aspectRatio(),
+            'time_ago'     => $this->readableTimeAgo(),
+            'user'         => [
+                'username' => $this->user->username,
+                'avatar'   => optional($this->user->avatar)->url
+            ],
+            'meta'         => [
+                'likes'    => $this->likes()->count(),
+                'comments' => $this->comments()->count()
+            ]
+        ];
     }
 }

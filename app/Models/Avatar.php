@@ -46,4 +46,14 @@ class Avatar extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    /**
+     * Get url attribute.
+     *
+     * @return \Illuminate\Contracts\Routing\UrlGenerator|string|null
+     */
+    public function getUrlAttribute()
+    {
+        return isset($this->source) ? url('avatars/' . $this->source) : null;
+    }
 }

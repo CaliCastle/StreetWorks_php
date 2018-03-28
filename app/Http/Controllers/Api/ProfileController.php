@@ -239,11 +239,4 @@ class ProfileController extends Controller
 
         return $this->successResponse(compact('source'));
     }
-
-    public function test()
-    {
-        $image = Image::first();
-
-        return $image->aspectRatio();
-    }
 }
