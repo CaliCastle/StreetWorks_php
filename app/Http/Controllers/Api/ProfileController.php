@@ -41,7 +41,7 @@ class ProfileController extends Controller
                 'description' => $user->description,
                 'hashtags'    => $user->hashtags,
                 'avatar'      => $user->avatar,
-                'cover_image' => $user->cover_image
+                'cover_image' => optional($user->coverImage)->url
             ]
         ]);
     }
