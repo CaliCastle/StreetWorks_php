@@ -40,7 +40,8 @@ class ProfileController extends Controller
                 'website'     => $user->website,
                 'description' => $user->description,
                 'hashtags'    => $user->hashtags,
-                'avatar'      => $user->avatar,
+//                'avatar'      => $user->avatar,
+                'avatar_url'  => optional($user->avatar)->url,
                 'cover_image' => optional($user->coverImage)->url
             ]
         ]);
