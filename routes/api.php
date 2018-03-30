@@ -21,9 +21,11 @@ Route::prefix('v1')->group(function () {
 
         // Gets current user info
         Route::get('me', 'ProfileController@index')->name('profile');
+        Route::get('me/photos', 'ProfileController@myPhotos');
 
         // Get user profile by id
         Route::get('profile/{user}', 'ProfileController@profile');
+        Route::get('profile/{user}/photos', 'ProfileController@photos');
 
         Route::get('profile/{user}/business-info', 'ProfileController@getBusinessInfo')->name('business-info');
 

@@ -159,6 +159,7 @@ class User extends Authenticatable
      * Create user's business info.
      *
      * @param array $attributes
+     *
      * @throws \Exception
      */
     public function createBusinessInfo($attributes = [])
@@ -204,9 +205,29 @@ class User extends Authenticatable
         $file->storePubliclyAs('uploads', $fileName);
         // Persist to database
         $image = Image::create(array_merge([
-            'location'    => $fileName
+            'location' => $fileName
         ], $attributes));
 
         return $image;
+    }
+
+    /**
+     * Get post photos.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function photos()
+    {
+        $posts = $this->posts()->with('image')->get();
+        $photos = collect([]);
+
+        foreach ($posts as $post) {
+            $photos->push([
+                'id'    => $post->id,
+                'image' => $post->image->url
+            ]);
+        }
+
+        return $photos;
     }
 }

@@ -30,6 +30,7 @@ class ProfileController extends Controller
 
         return $this->successResponse([
             'user' => [
+                'id'          => $user->id,
                 'first_name'  => $user->first_name,
                 'last_name'   => $user->last_name,
                 'username'    => $user->username,
@@ -45,6 +46,32 @@ class ProfileController extends Controller
                 'cover_image' => optional($user->coverImage)->url
             ]
         ]);
+    }
+
+    /**
+     * Get my photos in grid endpoint.
+     *
+     * @param Request $request
+     *
+     * @return array
+     */
+    public function myPhotos(Request $request)
+    {
+        return $this->photos($request->user());
+    }
+
+    /**
+     * Get photos in grid endpoint.
+     *
+     * @param Request $request
+     *
+     * @return array
+     */
+    public function photos(User $user)
+    {
+        $photos = $user->photos();
+
+        return $this->successResponse(compact('photos'));
     }
 
     /**
