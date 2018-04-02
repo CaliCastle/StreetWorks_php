@@ -87,6 +87,7 @@ class Post extends Model
             'image_aspect' => $this->image->aspectRatio(),
             'time_ago'     => $this->readableTimeAgo(),
             'user'         => [
+                'id'        => $this->user->id,
                 'username'  => $this->user->username,
                 'avatar'    => optional($this->user->avatar)->url,
                 'car_model' => optional($primaryCar)->fullName(),

@@ -18,7 +18,7 @@ use StreetWorks\Http\Requests\BusinessInfoRequest;
 class ProfileController extends Controller
 {
     /**
-     * Retrieve user profile.
+     * Retrieve current user's profile.
      *
      * @param Request $request
      *
@@ -28,24 +28,19 @@ class ProfileController extends Controller
     {
         $user = $request->user();
 
-        return $this->successResponse([
-            'user' => [
-                'id'          => $user->id,
-                'first_name'  => $user->first_name,
-                'last_name'   => $user->last_name,
-                'username'    => $user->username,
-                'email'       => $user->email,
-                'status'      => $user->status,
-                'is_business' => $user->is_business,
-                'notoriety'   => $user->notoriety,
-                'website'     => $user->website,
-                'description' => $user->description,
-                'hashtags'    => $user->hashtags,
-//                'avatar'      => $user->avatar,
-                'avatar_url'  => optional($user->avatar)->url,
-                'cover_image' => optional($user->coverImage)->url
-            ]
-        ]);
+        return $this->profile($user);
+    }
+
+    /**
+     * Show profile for a specific user.
+     *
+     * @param User $user
+     *
+     * @return array
+     */
+    public function profile(User $user)
+    {
+        return $this->successResponse(['user' => $user->profileApiAttributes()]);
     }
 
     /**
@@ -174,18 +169,6 @@ class ProfileController extends Controller
         }
 
         return $this->errorResponse('Incorrect password');
-    }
-
-    /**
-     * Show profile for a user.
-     *
-     * @param User $user
-     *
-     * @return array
-     */
-    public function profile(User $user)
-    {
-        return $this->successResponse(compact('user'));
     }
 
     /**

@@ -37,6 +37,7 @@ Route::prefix('v1')->group(function () {
         Route::prefix('cars')->group(function () {
             // Get all of the user's cars
             Route::get('/', 'CarsController@getAll');
+            Route::get('/user/{user}', 'CarsController@getAllForUser');
 
             // Get a certain car
             Route::get('{car}', 'CarsController@index')->name('show-car');

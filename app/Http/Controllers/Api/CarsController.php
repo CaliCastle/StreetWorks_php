@@ -8,6 +8,7 @@ use StreetWorks\Models\CarMod;
 use StreetWorks\Http\Requests\CarsRequest;
 use StreetWorks\Http\Controllers\Controller;
 use StreetWorks\Http\Requests\CarModRequest;
+use StreetWorks\Models\User;
 
 class CarsController extends Controller
 {
@@ -24,7 +25,7 @@ class CarsController extends Controller
     }
 
     /**
-     * Get all cars of a user.
+     * Get all cars of current user.
      *
      * @param Request $request
      *
@@ -32,7 +33,21 @@ class CarsController extends Controller
      */
     public function getAll(Request $request)
     {
-        $cars = $request->user()->cars()->primaryFirst()->latest()->get();
+        $user = $request->user();
+
+        return $this->getAllForUser($user);
+    }
+
+    /**
+     * Get all cars of the specific user.
+     *
+     * @param User $user
+     *
+     * @return array
+     */
+    public function getAllForUser(User $user)
+    {
+        $cars = $user->cars()->primaryFirst()->latest()->get();
 
         return $this->successResponse(compact('cars'));
     }

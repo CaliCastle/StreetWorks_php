@@ -230,4 +230,28 @@ class User extends Authenticatable
 
         return $photos;
     }
+
+    /**
+     * User's profile api attributes.
+     *
+     * @return array
+     */
+    public function profileApiAttributes()
+    {
+        return [
+            'id'          => $this->id,
+            'first_name'  => $this->first_name,
+            'last_name'   => $this->last_name,
+            'username'    => $this->username,
+            'email'       => $this->email,
+            'status'      => $this->status,
+            'is_business' => $this->is_business,
+            'notoriety'   => $this->notoriety,
+            'website'     => $this->website,
+            'description' => $this->description,
+            'hashtags'    => $this->hashtags,
+            'avatar_url'  => optional($this->avatar)->url,
+            'cover_image' => optional($this->coverImage)->url
+        ];
+    }
 }
