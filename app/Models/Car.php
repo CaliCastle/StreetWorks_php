@@ -60,6 +60,16 @@ class Car extends Model
     }
 
     /**
+     * Car's cover image.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function coverImage()
+    {
+        return $this->hasOne(Image::class, 'id', 'cover_image_id');
+    }
+
+    /**
      * Car's mods.
      *
      * @return mixed
@@ -77,9 +87,10 @@ class Car extends Model
     public function toArray()
     {
         return array_merge(parent::toArray(), [
-            'image'   => $this->image,
-            'user'    => $this->user,
-            'primary' => $this->primary ? 1 : 0
+            'image'       => $this->image,
+            'cover_image' => $this->coverImage,
+            'user'        => $this->user,
+            'primary'     => $this->primary ? 1 : 0
         ]);
     }
 
