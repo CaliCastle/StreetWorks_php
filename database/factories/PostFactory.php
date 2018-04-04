@@ -8,7 +8,7 @@ use StreetWorks\Models\Image;
 $factory->define(StreetWorks\Models\Post::class, function (Faker $faker) {
     return [
         'text'     => $faker->sentences(3, true),
-        'user_id'  => User::first()->id,
+        'user_id'  => User::inRandomOrder()->first()->id,
         'image_id' => Image::inRandomOrder()->first()->id,
         'car_id'   => Car::inRandomOrder()->first()->id
     ];

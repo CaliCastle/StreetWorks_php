@@ -48,6 +48,10 @@ Route::prefix('v1')->group(function () {
             // Updates a car
             Route::put('{car}', 'CarsController@update')->name('update-car');
 
+            // Upload car's cover image and photo
+            Route::post('{car}/cover', 'CarsController@uploadCover');
+            Route::post('{car}/photo', 'CarsController@uploadPhoto');
+
             // Deletes a car
             Route::delete('{car}', 'CarsController@delete')->name('delete-car');
 

@@ -5,6 +5,7 @@ namespace StreetWorks\Http\Controllers\Api;
 use StreetWorks\Models\Car;
 use Illuminate\Http\Request;
 use StreetWorks\Models\CarMod;
+use Illuminate\Http\UploadedFile;
 use StreetWorks\Http\Requests\CarsRequest;
 use StreetWorks\Http\Controllers\Controller;
 use StreetWorks\Http\Requests\CarModRequest;
@@ -99,6 +100,74 @@ class CarsController extends Controller
         $car->update($request->all());
 
         return $this->successResponse(compact('car'));
+    }
+
+    /**
+     * Upload cover image for car.
+     *
+     * @param Request $request
+     * @param Car     $car
+     *
+     * @return array
+     */
+    public function uploadCover(Request $request, Car $car)
+    {
+        if ($car->user->id != $request->user()->id) {
+            throw new \Exception("Car doesn't belong to user");
+        }
+
+        $this->validate($request, [
+            'image' => 'required|image'
+        ]);
+
+        $file = $request->file('image');
+
+        if ($file instanceof UploadedFile) {
+            $image = $request->user()->storeImage($file, [
+                'title'       => '',
+                'description' => 'Car Cover Photo'
+            ]);
+            $car->cover_image_id = $image->id;
+            $car->save();
+
+            return $this->successResponse(compact('image'));
+        }
+
+        return $this->errorResponse();
+    }
+
+    /**
+     * Upload photo for a car.
+     *
+     * @param Request $request
+     * @param Car     $car
+     *
+     * @return array
+     */
+    public function uploadPhoto(Request $request, Car $car)
+    {
+        if ($car->user->id != $request->user()->id) {
+            throw new \Exception("Car doesn't belong to user");
+        }
+
+        $this->validate($request, [
+            'image' => 'required|image'
+        ]);
+
+        $file = $request->file('image');
+
+        if ($file instanceof UploadedFile) {
+            $image = $request->user()->storeImage($file, [
+                'title'       => '',
+                'description' => 'Car Photo'
+            ]);
+            $car->image_id = $image->id;
+            $car->save();
+
+            return $this->successResponse(compact('image'));
+        }
+
+        return $this->errorResponse();
     }
 
     /**
