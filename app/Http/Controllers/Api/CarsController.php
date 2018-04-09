@@ -272,4 +272,18 @@ class CarsController extends Controller
 
         return $this->successResponse();
     }
+
+    /**
+     * Get car's photos.
+     *
+     * @param Car $car
+     *
+     * @return array
+     */
+    public function getCarPhotos(Car $car)
+    {
+        $photos = $car->photos();
+
+        return $this->successResponse(compact('photos'));
+    }
 }

@@ -70,6 +70,16 @@ class Car extends Model
     }
 
     /**
+     * Car's posts.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
+
+    /**
      * Car's mods.
      *
      * @return mixed
@@ -126,5 +136,25 @@ class Car extends Model
     public function fullName()
     {
         return $this->year . ' ' . $this->manufacturer . ' ' . $this->model;
+    }
+
+    /**
+     * Get car's photos.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function photos()
+    {
+        $posts = $this->posts()->with('image')->get();
+        $photos = collect();
+
+        foreach ($posts as $post) {
+            $photos->push([
+                'id'    => $post->id,
+                'image' => $post->image->url
+            ]);
+        }
+
+        return $photos;
     }
 }

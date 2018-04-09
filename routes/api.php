@@ -42,6 +42,8 @@ Route::prefix('v1')->group(function () {
             // Get a certain car
             Route::get('{car}', 'CarsController@index')->name('show-car');
 
+            Route::get('{car}/photos', 'CarsController@getCarPhotos');
+
             // Adds a car
             Route::post('/', 'CarsController@create')->name('car');
 
