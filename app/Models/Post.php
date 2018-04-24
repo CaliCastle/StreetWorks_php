@@ -81,6 +81,7 @@ class Post extends Model
     protected function apiAttributes()
     {
         $primaryCar = $this->user->primaryCar();
+        $currentUser = auth()->user();
 
         return [
             'image_url'    => $this->image->url,
@@ -95,7 +96,8 @@ class Post extends Model
             ],
             'meta'         => [
                 'likes'    => $this->likes()->count(),
-                'comments' => $this->comments()->count()
+                'comments' => $this->comments()->count(),
+                'liked'    => $this->likes()->where('user_id', optional($currentUser)->id)->exists()
             ]
         ];
     }
