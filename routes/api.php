@@ -97,6 +97,7 @@ Route::prefix('v1')->group(function () {
 
         // Upload a photo
         Route::post('photo', 'UsersController@uploadPhoto')->name('upload-photo');
+        Route::delete('photo/{image}', 'UsersController@deletePhoto');
 
         // Set avatar to facebook profile pic
         Route::post('avatar-facebook', 'ProfileController@useFacebookAvatar');

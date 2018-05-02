@@ -21,9 +21,9 @@ class PostsController extends Controller
     public function create(PostRequest $request)
     {
         // Create post
-        $request->user()->posts()->create($request->all());
+        $post = $request->user()->posts()->create($request->all());
 
-        return $this->successResponse();
+        return $this->successResponse(compact('post'));
     }
 
     /**

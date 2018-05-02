@@ -11,7 +11,9 @@ class Post extends Model
      *
      * @var array
      */
-    protected $fillable = ['text', 'image_id'];
+    protected $fillable = ['text', 'image_id', 'car_id'];
+
+    protected $perPage = 30;
 
     /**
      * The user it belongs to.
@@ -54,6 +56,16 @@ class Post extends Model
     }
 
     /**
+     * Car of the post.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function car()
+    {
+        return $this->belongsTo(Car::class);
+    }
+
+    /**
      * Get readable time ago info.
      *
      * @return string
@@ -91,8 +103,8 @@ class Post extends Model
                 'id'        => $this->user->id,
                 'username'  => $this->user->username,
                 'avatar'    => optional($this->user->avatar)->url,
-                'car_model' => optional($primaryCar)->fullName(),
-                'car_image' => optional(optional($primaryCar)->image)->url
+                'car_model' => optional($this->car)->fullName(),
+                'car_image' => optional($this->car->image)->url
             ],
             'meta'         => [
                 'likes'    => $this->likes()->count(),

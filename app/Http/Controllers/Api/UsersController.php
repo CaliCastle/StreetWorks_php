@@ -31,4 +31,18 @@ class UsersController extends Controller
 
         return $this->errorResponse();
     }
+
+    /**
+     * Delete a photo from disk and database.
+     *
+     * @param Image $image
+     *
+     * @return array
+     */
+    public function deletePhoto(Image $image)
+    {
+        $image->moveToTrash();
+
+        return $this->successResponse();
+    }
 }

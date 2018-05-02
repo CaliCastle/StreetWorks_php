@@ -2,6 +2,7 @@
 
 namespace StreetWorks\Models;
 
+use Storage;
 use StreetWorks\Library\Model;
 use StreetWorks\Library\Traits\UUIDs;
 
@@ -43,5 +44,12 @@ class Image extends Model
         list($width, $height) = getimagesize(storage_path('app/uploads/' . $this->location));
 
         return $width / $height;
+    }
+
+    public function moveToTrash()
+    {
+        Storage::delete('uploads/' . $this->location);
+
+        $this->delete();
     }
 }

@@ -27,7 +27,7 @@ class FeedController extends Controller
     {
         // TODO: Dynamic data
 //        $user = $this->request->user();
-        $posts = Post::all();
+        $posts = Post::latest()->paginate();
 
         return $this->successResponse(compact('posts'));
     }
