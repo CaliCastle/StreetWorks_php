@@ -92,7 +92,6 @@ class Post extends Model
      */
     protected function apiAttributes()
     {
-        $primaryCar = $this->user->primaryCar();
         $currentUser = auth()->user();
 
         return [

@@ -46,6 +46,11 @@ class Image extends Model
         return $width / $height;
     }
 
+    /**
+     * Completely remove an image.
+     *
+     * @throws \Exception
+     */
     public function moveToTrash()
     {
         Storage::delete('uploads/' . $this->location);

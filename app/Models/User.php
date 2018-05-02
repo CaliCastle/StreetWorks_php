@@ -224,7 +224,7 @@ class User extends Authenticatable
         foreach ($posts as $post) {
             $photos->push([
                 'id'    => $post->id,
-                'image' => $post->image->url
+                'image' => optional($post->image)->url
             ]);
         }
 
